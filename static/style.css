@@ -190,3 +190,49 @@ header p {
     height: auto;
     margin: auto;
 }
+/* =========================
+   نتیجه توابع مثلثاتی
+   ========================= */
+
+.trig-result-card {
+    margin-top: 25px;
+    padding: 22px;
+    background: #f5a623;
+    border: 3px solid #123b66;
+    border-radius: 15px;
+    color: #123b66;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.trig-result-card h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.trig-result-card .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #fff3df;
+    border: 2px solid #123b66;
+    border-radius: 10px;
+
+    padding: 12px 15px;
+    margin-bottom: 12px;
+}
+
+.trig-result-card .result-message {
+    background: #fff3df;
+    border: 2px solid #123b66;
+    border-radius: 10px;
+
+    padding: 15px;
+    margin-top: 15px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    direction: ltr;
+}
