@@ -7,6 +7,10 @@ import os
 app = Flask(__name__)
 
 
+# =========================
+# صفحه اصلی
+# =========================
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -18,6 +22,7 @@ def home():
 
 @app.route("/quadratic", methods=["GET", "POST"])
 def quadratic():
+
     result = None
     delta = None
     x1 = None
@@ -26,34 +31,41 @@ def quadratic():
 
     if request.method == "POST":
 
-        a = float(request.form["a"])
-        b = float(request.form["b"])
-        c = float(request.form["c"])
+        try:
+            a = float(request.form["a"])
+            b = float(request.form["b"])
+            c = float(request.form["c"])
 
-        equation = f"{a}x² + {b}x + {c} = 0"
+            equation = f"{a}x² + {b}x + {c} = 0"
 
-        if a == 0:
-            result = "ضریب a نمی‌تواند صفر باشد."
-
-        else:
-            delta = b**2 - 4 * a * c
-
-            if delta > 0:
-
-                x1 = (-b + math.sqrt(delta)) / (2 * a)
-                x2 = (-b - math.sqrt(delta)) / (2 * a)
-
-                result = "معادله دو ریشهٔ حقیقی دارد."
-
-            elif delta == 0:
-
-                x1 = -b / (2 * a)
-
-                result = "معادله یک ریشهٔ حقیقی مضاعف دارد."
+            if a == 0:
+                result = "ضریب a نمی‌تواند صفر باشد."
 
             else:
 
-                result = "معادله ریشهٔ حقیقی ندارد."
+                delta = b**2 - 4*a*c
+
+                if delta > 0:
+
+                    x1 = (-b + math.sqrt(delta)) / (2*a)
+                    x2 = (-b - math.sqrt(delta)) / (2*a)
+
+                    result = "معادله دو ریشهٔ حقیقی دارد."
+
+                elif delta == 0:
+
+                    x1 = -b / (2*a)
+
+                    result = "معادله یک ریشهٔ حقیقی مضاعف دارد."
+
+                else:
+
+                    result = "معادله ریشهٔ حقیقی ندارد."
+
+        except ValueError:
+
+            result = "لطفاً فقط عدد وارد کنید."
+
 
     return render_template(
         "quadratic.html",
@@ -73,16 +85,17 @@ def quadratic():
 def graph():
 
     graph_exists = False
+    error = None
 
     if request.method == "POST":
 
-        function = request.form["function"]
+        function = request.form.get("function", "").strip()
 
         try:
 
             x = np.linspace(-10, 10, 400)
 
-            # توابع مجاز
+            # توابع قابل استفاده
             allowed = {
                 "x": x,
                 "sin": np.sin,
@@ -94,7 +107,15 @@ def graph():
                 "pi": np.pi
             }
 
-            y = eval(function, {"__builtins__": {}}, allowed)
+            # تبدیل ^ به **
+            function = function.replace("^", "**")
+
+            # پشتیبانی از sin(x)، cos(x) و ...
+            y = eval(
+                function,
+                {"__builtins__": {}},
+                allowed
+            )
 
             plt.figure(figsize=(8, 5))
 
@@ -124,11 +145,13 @@ def graph():
 
         except Exception:
 
-            graph_exists = False
+            error = "تابع واردشده قابل رسم نیست."
+
 
     return render_template(
         "graph.html",
-        graph=graph_exists
+        graph=graph_exists,
+        error=error
     )
 
 
@@ -146,52 +169,83 @@ def trigonometry():
 
     if request.method == "POST":
 
-        function = request.form["function"]
-        angle = float(request.form["angle"])
-        unit = request.form["unit"]
-
-        # تبدیل درجه به رادیان
-        if unit == "degree":
-            radians = math.radians(angle)
-        else:
-            radians = angle
-
         try:
 
+            function = request.form["function"]
+            angle = float(request.form["angle"])
+            unit = request.form["unit"]
+
+            # تبدیل درجه به رادیان
+            if unit == "degree":
+                radians = math.radians(angle)
+            else:
+                radians = angle
+
+            # -----------------
+            # sin
+            # -----------------
+
             if function == "sin":
+
                 value = math.sin(radians)
 
+            # -----------------
+            # cos
+            # -----------------
+
             elif function == "cos":
+
                 value = math.cos(radians)
+
+            # -----------------
+            # tan
+            # -----------------
 
             elif function == "tan":
 
-                # بررسی نقاط تعریف‌نشده
                 if abs(math.cos(radians)) < 1e-12:
+
                     result = "تابع tan در این زاویه تعریف نشده."
                     value = None
+
                 else:
+
                     value = math.tan(radians)
+
+            # -----------------
+            # cot
+            # -----------------
 
             elif function == "cot":
 
-                # cot(x) = cos(x) / sin(x)
                 if abs(math.sin(radians)) < 1e-12:
+
                     result = "تابع cot در این زاویه تعریف نشده."
                     value = None
+
                 else:
+
                     value = math.cos(radians) / math.sin(radians)
 
             else:
-                result = "تابع واردشده معتبر نیست."
+
+                result = "تابع انتخاب‌شده معتبر نیست."
                 value = None
 
+
             if value is not None:
+
                 result = f"{function}({angle}) = {value:.6f}"
+
+
+        except ValueError:
+
+            result = "لطفاً یک زاویه معتبر وارد کنید."
 
         except Exception:
 
             result = "خطایی در محاسبه رخ داد."
+
 
     return render_template(
         "trigonometry.html",
@@ -201,6 +255,10 @@ def trigonometry():
         unit=unit
     )
 
+
+# =========================
+# اجرای برنامه
+# =========================
 
 if __name__ == "__main__":
     app.run()
