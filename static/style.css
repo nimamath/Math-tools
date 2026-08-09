@@ -101,3 +101,74 @@ header p {
         padding: 15px;
     }
   }
+/* کارت نتیجه معادله درجه دوم */
+
+.result-card {
+    margin-top: 25px;
+    padding: 22px;
+    background: #d9f7df;
+    border: 3px solid #123b66;
+    border-radius: 15px;
+    color: #123b66;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.result-card h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.equation {
+    background: white;
+    border: 2px solid #123b66;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    direction: ltr;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+}
+
+.result-message {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.roots {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.root-box {
+    background: #baf0c4;
+    border: 2px solid #123b66;
+    border-radius: 10px;
+    padding: 15px 25px;
+    min-width: 100px;
+}
+
+.root-box span {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.root-box strong {
+    font-size: 22px;
+    direction: ltr;
+    display: block;
+}
