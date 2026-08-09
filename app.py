@@ -18,9 +18,9 @@ def graph():
     return render_template("graph.html")
 
 
-@app.route("/system")
-def system():
-    return render_template("system.html")
+@app.route("/trigonometry")
+def trigonometry():
+    return render_template("trigonometry.html")
 
 
 if __name__ == "__main__":
