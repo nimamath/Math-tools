@@ -1,0 +1,103 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    min-height: 100vh;
+}
+
+/* Header */
+
+header {
+    text-align: center;
+    padding: 70px 20px 40px;
+}
+
+header h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+header p {
+    color: #cbd5e1;
+    font-size: 19px;
+}
+
+/* Tools */
+
+.tools {
+    max-width: 1050px;
+    margin: auto;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(260px, 1fr)
+    );
+
+    gap: 25px;
+}
+
+/* Tool cards */
+
+.tool {
+    display: block;
+
+    background: #1e293b;
+    color: white;
+    text-decoration: none;
+
+    padding: 30px;
+
+    border-radius: 20px;
+    border: 1px solid #334155;
+
+    transition: 0.25s;
+}
+
+.tool:hover {
+    transform: translateY(-8px);
+    border-color: #f97316;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.tool span {
+    font-size: 45px;
+}
+
+.tool h2 {
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.tool p {
+    color: #cbd5e1;
+    line-height: 1.8;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    header {
+        padding-top: 45px;
+    }
+
+    header h1 {
+        font-size: 36px;
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    .tools {
+        padding: 15px;
+    }
+  }
