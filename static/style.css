@@ -172,3 +172,21 @@ header p {
     direction: ltr;
     display: block;
 }
+/* نمودار */
+
+.graph-container {
+    margin-top: 15px;
+    padding: 10px;
+    background: white;
+    border: 2px solid #123b66;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.graph-container img {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    margin: auto;
+}
