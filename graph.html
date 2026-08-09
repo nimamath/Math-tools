@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>رسم نمودار | MathTools</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>📈 رسم نمودار تابع</h1>
+        <p>تابع خود را وارد کنید و نمودار آن را ببینید</p>
+    </header>
+
+    <main class="calculator">
+
+        <form method="POST">
+
+            <label for="function">
+                تابع مورد نظر
+            </label>
+
+            <input
+                type="text"
+                name="function"
+                id="function"
+                placeholder="مثلاً: x**2 + 2*x - 3"
+                required
+            >
+
+            <button type="submit">
+                📈 رسم نمودار
+            </button>
+
+        </form>
+
+        {% if graph %}
+
+        <section class="result-card">
+
+            <h2>نمودار تابع</h2>
+
+            <div class="graph-container">
+                <img src="{{ url_for('static', filename='graph.png') }}"
+                     alt="نمودار تابع">
+            </div>
+
+        </section>
+
+        {% endif %}
+
+        <a href="/" class="back">
+            ← بازگشت به صفحه اصلی
+        </a>
+
+    </main>
+
+</body>
+
+</html>
