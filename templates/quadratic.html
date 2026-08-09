@@ -37,17 +37,52 @@
 
         </form>
 
+
         {% if result %}
 
-        <section class="result">
+        <section class="result-card">
 
-            <h2>نتیجه</h2>
+            <h2>نتیجه حل</h2>
 
-            <p>{{ result }}</p>
+            {% if equation %}
+            <div class="equation">
+                {{ equation }}
+            </div>
+            {% endif %}
+
+            {% if delta is not none %}
+            <div class="result-row">
+                <span>مقدار Δ</span>
+                <strong>{{ delta }}</strong>
+            </div>
+            {% endif %}
+
+            <div class="result-message">
+                {{ result }}
+            </div>
+
+            {% if x1 is not none %}
+            <div class="roots">
+
+                <div class="root-box">
+                    <span>x₁</span>
+                    <strong>{{ x1 }}</strong>
+                </div>
+
+                {% if x2 is not none %}
+                <div class="root-box">
+                    <span>x₂</span>
+                    <strong>{{ x2 }}</strong>
+                </div>
+                {% endif %}
+
+            </div>
+            {% endif %}
 
         </section>
 
         {% endif %}
+
 
         <a href="/" class="back">
             ← بازگشت به صفحه اصلی
