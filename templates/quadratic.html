@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>معادله درجه دوم | MathTools</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>📐 معادله درجه دوم</h1>
+        <p>حل معادله ax² + bx + c = 0</p>
+    </header>
+
+    <main class="calculator">
+
+        <form method="POST">
+
+            <label for="a">ضریب a</label>
+            <input type="number" step="any" name="a" id="a" required>
+
+            <label for="b">ضریب b</label>
+            <input type="number" step="any" name="b" id="b" required>
+
+            <label for="c">ضریب c</label>
+            <input type="number" step="any" name="c" id="c" required>
+
+            <button type="submit">
+                حل معادله
+            </button>
+
+        </form>
+
+        {% if result %}
+
+        <section class="result">
+
+            <h2>نتیجه</h2>
+
+            <p>{{ result }}</p>
+
+        </section>
+
+        {% endif %}
+
+        <a href="/" class="back">
+            ← بازگشت به صفحه اصلی
+        </a>
+
+    </main>
+
+</body>
+
+</html>
