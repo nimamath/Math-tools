@@ -240,101 +240,67 @@ def graph():
 # =========================
 # توابع مثلثاتی
 # =========================
-
 @app.route("/trigonometry", methods=["GET", "POST"])
 def trigonometry():
 
     result = None
-    function = None
-    angle = None
-    unit = None
+
 
     if request.method == "POST":
 
+        function = request.form["function"]
+
+        angle_text = request.form["angle"]
+
+        unit = request.form["unit"]
+
+
         try:
 
-            function = request.form["function"]
-            angle = float(request.form["angle"])
-            unit = request.form["unit"]
+            angle = parse_angle(angle_text)
 
-            # تبدیل درجه به رادیان
+
             if unit == "degree":
-                radians = math.radians(angle)
-            else:
-                radians = angle
+                angle = math.radians(angle)
 
-            # -----------------
-            # sin
-            # -----------------
 
             if function == "sin":
 
-                value = math.sin(radians)
+                answer = math.sin(angle)
 
-            # -----------------
-            # cos
-            # -----------------
 
             elif function == "cos":
 
-                value = math.cos(radians)
+                answer = math.cos(angle)
 
-            # -----------------
-            # tan
-            # -----------------
 
             elif function == "tan":
 
-                if abs(math.cos(radians)) < 1e-12:
+                answer = math.tan(angle)
 
-                    result = "تابع tan در این زاویه تعریف نشده."
-                    value = None
-
-                else:
-
-                    value = math.tan(radians)
-
-            # -----------------
-            # cot
-            # -----------------
 
             elif function == "cot":
 
-                if abs(math.sin(radians)) < 1e-12:
-
-                    result = "تابع cot در این زاویه تعریف نشده."
-                    value = None
-
-                else:
-
-                    value = math.cos(radians) / math.sin(radians)
-
-            else:
-
-                result = "تابع انتخاب‌شده معتبر نیست."
-                value = None
+                answer = 1 / math.tan(angle)
 
 
-            if value is not None:
 
-                result = f"{function}({angle}) = {value:.6f}"
+            result = (
+                f"{function}({angle_text}) = "
+                f"{answer}"
+            )
 
 
-        except ValueError:
+        except:
 
-            result = "لطفاً یک زاویه معتبر وارد کنید."
-
-        except Exception:
-
-            result = "خطایی در محاسبه رخ داد."
+            result = (
+                "❌ ورودی زاویه معتبر نیست."
+            )
 
 
     return render_template(
         "trigonometry.html",
-        result=result,
-        function=function,
-        angle=angle,
-        unit=unit
+        result=result
     )
 
 
