@@ -9,6 +9,102 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .calculator {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .equation {
+            text-align: center;
+            font-size: 25px;
+            margin: 25px 0;
+            color: #f97316;
+            direction: ltr;
+        }
+
+        form {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-size: 17px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            font-size: 18px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f97316;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #f97316;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 25px;
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+            line-height: 2.2;
+        }
+
+        .result h2 {
+            color: #f97316;
+            margin-bottom: 10px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            color: #f97316;
+        }
+
+        .error {
+            color: #fca5a5;
+        }
+
+        .success {
+            color: #e2e8f0;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,16 +116,47 @@
 
     <main class="calculator">
 
+        <div class="equation">
+            ax² + bx + c = 0
+        </div>
+
         <form method="POST">
 
-            <label for="a">a ضریب</label>
-            <input type="text" name="a" id="a" required>
+            <label for="a">ضریب a</label>
+            <input
+                type="text"
+                name="a"
+                id="a"
+                inputmode="text"
+                dir="ltr"
+                placeholder="مثلاً -2.5"
+                value="{{ values.a if values else '' }}"
+                required
+            >
 
-            <label for="b">b ضریب</label>
-            <input type="text" name="b" id="b" required>
+            <label for="b">ضریب b</label>
+            <input
+                type="text"
+                name="b"
+                id="b"
+                inputmode="text"
+                dir="ltr"
+                placeholder="مثلاً 3.14"
+                value="{{ values.b if values else '' }}"
+                required
+            >
 
-            <label for="c">c ضریب</label>
-            <input type="text" name="c" id="c" required>
+            <label for="c">ضریب c</label>
+            <input
+                type="text"
+                name="c"
+                id="c"
+                inputmode="text"
+                dir="ltr"
+                placeholder="مثلاً -7.25"
+                value="{{ values.c if values else '' }}"
+                required
+            >
 
             <button type="submit">
                 حل معادله
@@ -37,52 +164,15 @@
 
         </form>
 
-
         {% if result %}
+        <section class="result">
+            <h2>نتیجه</h2>
 
-        <section class="result-card">
-
-            <h2>نتیجه حل</h2>
-
-            {% if equation %}
-            <div class="equation">
-                {{ equation }}
+            <div class="success">
+                {{ result | safe }}
             </div>
-            {% endif %}
-
-            {% if delta is not none %}
-            <div class="result-row">
-                <span>مقدار Δ</span>
-                <strong>{{ delta }}</strong>
-            </div>
-            {% endif %}
-
-            <div class="result-message">
-                {{ result }}
-            </div>
-
-            {% if x1 is not none %}
-            <div class="roots">
-
-                <div class="root-box">
-                    <span>x₁</span>
-                    <strong>{{ x1 }}</strong>
-                </div>
-
-                {% if x2 is not none %}
-                <div class="root-box">
-                    <span>x₂</span>
-                    <strong>{{ x2 }}</strong>
-                </div>
-                {% endif %}
-
-            </div>
-            {% endif %}
-
         </section>
-
         {% endif %}
-
 
         <a href="/" class="back">
             ← بازگشت به صفحه اصلی
