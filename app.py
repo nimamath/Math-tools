@@ -1,79 +1,134 @@
 from flask import Flask, render_template, request
 import math
-import matplotlib.pyplot as plt
-import numpy as np
-import os
 
 app = Flask(__name__)
 
 
-# =========================
-# صفحه اصلی
-# =========================
+def to_number(value):
+    """
+    تبدیل ورودی‌های مختلف به عدد.
+    پشتیبانی از:
+    12
+    -12
+    3.14
+    -2.5
+    ۳.۱۴
+    -۲٫۵
+    3,14
+    """
+
+    value = value.strip()
+
+    # اعداد فارسی
+    persian_digits = "۰۱۲۳۴۵۶۷۸۹"
+
+    # اعداد عربی
+    arabic_digits = "٠١٢٣٤٥٦٧٨٩"
+
+    for i in range(10):
+        value = value.replace(persian_digits[i], str(i))
+        value = value.replace(arabic_digits[i], str(i))
+
+    # علامت اعشار
+    value = value.replace("٫", ".")
+    value = value.replace(",", ".")
+
+    # حذف فاصله‌های احتمالی
+    value = value.replace(" ", "")
+
+    return float(value)
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# =========================
-# معادله درجه دوم
-# =========================
-
 @app.route("/quadratic", methods=["GET", "POST"])
 def quadratic():
 
     result = None
-    delta = None
-    x1 = None
-    x2 = None
-    equation = None
+
+    values = {
+        "a": "",
+        "b": "",
+        "c": ""
+    }
 
     if request.method == "POST":
 
+        values["a"] = request.form.get("a", "")
+        values["b"] = request.form.get("b", "")
+        values["c"] = request.form.get("c", "")
+
         try:
-            a = float(request.form["a"])
-            b = float(request.form["b"])
-            c = float(request.form["c"])
 
-            equation = f"{a}x² + {b}x + {c} = 0"
+            a = to_number(values["a"])
+            b = to_number(values["b"])
+            c = to_number(values["c"])
 
+            # بررسی درجه دوم بودن
             if a == 0:
-                result = "ضریب a نمی‌تواند صفر باشد."
+
+                result = (
+                    '<span class="error">'
+                    'ضریب a نمی‌تواند صفر باشد؛ '
+                    'در این صورت معادله درجه دوم نیست.'
+                    '</span>'
+                )
 
             else:
 
-                delta = b**2 - 4*a*c
+                delta = b ** 2 - 4 * a * c
 
+                # دو ریشه حقیقی
                 if delta > 0:
 
-                    x1 = (-b + math.sqrt(delta)) / (2*a)
-                    x2 = (-b - math.sqrt(delta)) / (2*a)
+                    sqrt_delta = math.sqrt(delta)
 
-                    result = "معادله دو ریشهٔ حقیقی دارد."
+                    x1 = (-b + sqrt_delta) / (2 * a)
+                    x2 = (-b - sqrt_delta) / (2 * a)
 
+                    result = (
+                        f"Δ = {delta}<br><br>"
+                        f"دو ریشه حقیقی داریم:<br><br>"
+                        f"x₁ = {x1}<br>"
+                        f"x₂ = {x2}"
+                    )
+
+                # یک ریشه حقیقی
                 elif delta == 0:
 
-                    x1 = -b / (2*a)
+                    x = -b / (2 * a)
 
-                    result = "معادله یک ریشهٔ حقیقی مضاعف دارد."
+                    result = (
+                        "Δ = 0<br><br>"
+                        "یک ریشه حقیقی داریم:<br><br>"
+                        f"x = {x}"
+                    )
 
+                # بدون ریشه حقیقی
                 else:
 
-                    result = "معادله ریشهٔ حقیقی ندارد."
+                    result = (
+                        f"Δ = {delta}<br><br>"
+                        "این معادله ریشه حقیقی ندارد."
+                    )
 
         except ValueError:
 
-            result = "لطفاً فقط عدد وارد کنید."
-
+            result = (
+                '<span class="error">'
+                'لطفاً برای a، b و c عدد معتبر وارد کنید.'
+                '<br><br>'
+                'مثال: -2.5 یا 3.14 یا ۲٫۵'
+                '</span>'
+            )
 
     return render_template(
         "quadratic.html",
         result=result,
-        delta=delta,
-        x1=x1,
-        x2=x2,
-        equation=equation
+        values=values
     )
 
 
