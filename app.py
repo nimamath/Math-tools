@@ -311,10 +311,7 @@ def trigonometry():
 
 
 
-            result = (
-                f"{function}({angle_text}) = "
-                f"{answer}"
-            )
+            result = f"{function}({angle_text}) = {nice_trig_result(answer)}"
 
 
         except:
