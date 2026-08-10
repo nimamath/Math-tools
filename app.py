@@ -37,7 +37,34 @@ def to_number(value):
     value = value.replace(" ", "")
 
     return float(value)
+def parse_angle(value):
 
+    value = value.strip()
+
+    # تبدیل اعداد فارسی
+    persian = "۰۱۲۳۴۵۶۷۸۹"
+
+    for i in range(10):
+        value = value.replace(
+            persian[i],
+            str(i)
+        )
+
+
+    # تبدیل پی
+    value = value.replace("π", "pi")
+
+
+    allowed = {
+        "pi": math.pi
+    }
+
+
+    return eval(
+        value,
+        {"__builtins__": {}},
+        allowed
+    )
 
 @app.route("/")
 def home():
