@@ -8,91 +8,114 @@
     <title>توابع مثلثاتی | MathTools</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 
 <body>
 
-    <header>
-        <h1>📐 توابع مثلثاتی</h1>
-        <p>محاسبه مقدار توابع مثلثاتی</p>
-    </header>
+<header>
 
-    <main class="calculator">
+<h1>📐 توابع مثلثاتی</h1>
 
-        <form method="POST">
+<p>
+محاسبه sin، cos، tan و cot
+</p>
 
-            <label for="function">
-                تابع مثلثاتی
-            </label>
-
-            <select name="function" id="function" required>
-                <option value="sin">sin</option>
-                <option value="cos">cos</option>
-                <option value="tan">tan</option>
-                <option value="cot">cot</option>
-            </select>
-
-            <label for="angle">
-                زاویه
-            </label>
-
-            <input
-                type="number"
-                step="any"
-                name="angle"
-                id="angle"
-                placeholder="مثلاً 30"
-                required
-            >
-
-            <label for="unit">
-                واحد زاویه
-            </label>
-
-            <select name="unit" id="unit" required>
-                <option value="degree">درجه</option>
-                <option value="radian">رادیان</option>
-            </select>
-
-            <button type="submit">
-                🧮 محاسبه
-            </button>
-
-        </form>
+</header>
 
 
-        {% if result %}
-
-        <section class="result-card">
-
-            <h2>نتیجه</h2>
-
-            <div class="result-row">
-                <span>تابع</span>
-                <strong>{{ function }}</strong>
-            </div>
-
-            <div class="result-row">
-                <span>زاویه</span>
-                <strong>{{ angle }} {{ unit }}</strong>
-            </div>
-
-            <div class="result-message">
-                {{ result }}
-            </div>
-
-        </section>
-
-        {% endif %}
+<main class="calculator">
 
 
-        <a href="/" class="back">
-            ← بازگشت به صفحه اصلی
-        </a>
+<form method="POST">
 
-    </main>
+
+<label>
+انتخاب تابع
+</label>
+
+
+<select name="function">
+
+<option value="sin">sin</option>
+<option value="cos">cos</option>
+<option value="tan">tan</option>
+<option value="cot">cot</option>
+
+</select>
+
+
+
+<label>
+زاویه
+</label>
+
+
+<input
+type="text"
+name="angle"
+dir="ltr"
+inputmode="text"
+placeholder="مثلاً 30 یا π/6"
+required
+>
+
+
+
+<label>
+واحد زاویه
+</label>
+
+
+<select name="unit">
+
+<option value="degree">
+درجه °
+</option>
+
+<option value="radian">
+رادیان
+</option>
+
+</select>
+
+
+
+<button type="submit">
+محاسبه
+</button>
+
+
+</form>
+
+
+
+{% if result %}
+
+<section class="result">
+
+<h2>نتیجه</h2>
+
+<p>
+{{ result | safe }}
+</p>
+
+</section>
+
+{% endif %}
+
+
+
+<a href="/" class="back">
+← بازگشت
+</a>
+
+
+</main>
+
 
 </body>
 
-  </html>
+</html>
