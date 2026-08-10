@@ -69,6 +69,28 @@ def to_number(value):
         {"__builtins__": {}},
         allowed
     )
+    def nice_trig_result(value):
+
+    known = {
+        0: "0",
+        0.5: "1/2",
+        -0.5: "-1/2",
+        0.70710678118: "√2/2",
+        -0.70710678118: "-√2/2",
+        0.86602540378: "√3/2",
+        -0.86602540378: "-√3/2",
+        1: "1",
+        -1: "-1"
+    }
+
+
+    for number, text in known.items():
+
+        if abs(value - number) < 0.000001:
+            return text
+
+
+    return str(round(value, 10))
 
 @app.route("/")
 def home():
