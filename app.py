@@ -37,7 +37,7 @@ def to_number(value):
     value = value.replace(" ", "")
 
     return float(value)
-def parse_angle(value):
+    def parse_angle(value):
 
     value = value.strip()
 
@@ -50,15 +50,19 @@ def parse_angle(value):
             str(i)
         )
 
-
-    # تبدیل پی
+    # تبدیل پی فارسی
     value = value.replace("π", "pi")
 
+    # حذف فاصله‌ها
+    value = value.replace(" ", "")
+
+    # اگر فقط pi بود
+    if value == "pi":
+        return math.pi
 
     allowed = {
         "pi": math.pi
     }
-
 
     return eval(
         value,
